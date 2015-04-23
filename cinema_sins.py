@@ -18,13 +18,15 @@ screen = pg.display.set_mode(size, pg.FULLSCREEN)
 pg.mixer.init()
 ding = pg.mixer.Sound(os.path.join(os.curdir, "resource", "ding.wav"))
 
+word_text = textOutline(font, "Sins: ", white, black)
+word_text_rect = word_text.get_rect(right=(4*width/7), centery=(height/2))
+
 num_sins = 0
 
 def sins_text(sins):
-    text = textOutline(font, "Sins: " + str(sins),
-                        white, black)
+    text = textOutline(font, ' '+str(sins), white, black)
 
-    return text, text.get_rect(center=(width/2, height/2))
+    return text, text.get_rect(left=(width/2), centery=(height/2))
 
 text, text_rect = sins_text(0)
 
@@ -52,8 +54,14 @@ while True:
 
                 text, text_rect = sins_text(num_sins)
 
+            if keys[pg.K_r]:
+                num_sins = 0
+
+                text, text_rect = sins_text(0)
+
     screen.fill(colors.black)
 
+    screen.blit(word_text, word_text_rect)
     screen.blit(text, text_rect)
 
     pg.display.flip()
